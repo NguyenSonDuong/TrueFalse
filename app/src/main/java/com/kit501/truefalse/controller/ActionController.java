@@ -62,7 +62,7 @@ public class ActionController {
     }
 
     public void Random() {
-        int[] dapan = new int[10];
+        int[] dapan = new int[11];
 
         scoresModel.setNum1(generator.nextInt((endNumber - startNumber) + 1) + startNumber);
         if (eventNumberChange != null)
@@ -77,7 +77,7 @@ public class ActionController {
             if (i > 5)
                 dapan[i] = generator.nextInt(((startDapAn + 5) - (startDapAn - 5)) + 1) + (startDapAn - 5);
         }
-        scoresModel.setNum3(dapan[generator.nextInt()]);
+        scoresModel.setNum3(dapan[generator.nextInt(10)]);
         this.dapAn = scoresModel.getNum3();
         if (eventNumberChange != null)
             eventNumberChange.OnChange(KeySaveModel.NUM3, scoresModel.getNum3());

@@ -9,6 +9,9 @@ import com.kit501.truefalse.controller.ActionController;
 import com.kit501.truefalse.controller.event.EventNumberChange;
 import com.kit501.truefalse.model.KeySaveModel;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -27,24 +30,35 @@ public class MainActivity extends AppCompatActivity {
         actionController.setEventNumberChange(new EventNumberChange() {
             @Override
             public void OnChange(KeySaveModel key, int number) {
-                if (key == KeySaveModel.NUM1)
-                    tvNum1.setText(number);
-                if (key == KeySaveModel.NUM2)
-                    tvNum2.setText(number);
-                if (key == KeySaveModel.NUM3)
-                    tvNum3.setText(number);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (key == KeySaveModel.NUM1)
+                            tvNum1.setText(number+"");
+                        if (key == KeySaveModel.NUM2)
+                            tvNum2.setText(number+"");
+                        if (key == KeySaveModel.NUM3)
+                            tvNum3.setText(number+"");
+                    }
+                });
+
             }
         });
-
-        Handler handler = new Handler();
-        while (true) {
-            handler.postAtTime(new Runnable() {
-                @Override
-                public void run() {
-                    actionController.Random();
-                }
-            }, 10);
-        }
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                actionController.Random();
+            }
+        }, 5000,5000);
+//        Handler handler = new Handler();
+//        while (true) {
+//            handler.postAtTime(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                }
+//            }, 10);
+//        }
     }
 
 
