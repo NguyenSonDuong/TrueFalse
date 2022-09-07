@@ -1,17 +1,21 @@
 package com.kit501.truefalse;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
+
+
+
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.kit501.truefalse.controller.ActionController;
 import com.kit501.truefalse.controller.event.EventNumberChange;
@@ -20,34 +24,36 @@ import com.kit501.truefalse.model.KeySaveModel;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class PlayFragment extends Fragment {
 
     boolean isStop = false;
     Timer timer;
     Timer timer2;
+    Activity activity;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        ActionController actionController = new ActionController(container.getContext());
 
-        ActionController actionController = new ActionController(this);
+        TextView tvNum1 = getView().findViewById(R.id.tvNum1);
+        TextView tvNum2 = getView().findViewById(R.id.tvNum2);
+        TextView tvNum3 = getView().findViewById(R.id.tvNum3);
+        TextView tvScores = getView().findViewById(R.id.tvScores);
 
-        TextView tvNum1 = this.findViewById(R.id.tvNum1);
-        TextView tvNum2 = this.findViewById(R.id.tvNum2);
-        TextView tvNum3 = this.findViewById(R.id.tvNum3);
-        TextView tvScores = this.findViewById(R.id.tvScores);
+        ImageButton btnTrue = getView().findViewById(R.id.btnTrue);
+        ImageButton btnFalse = getView().findViewById(R.id.btnFalse);
 
-        ImageButton btnTrue = this.findViewById(R.id.btnTrue);
-        ImageButton btnFalse = this.findViewById(R.id.btnFalse);
-
+        activity = this.getActivity();
 
         actionController.setEventNumberChange(new EventNumberChange() {
             @Override
             public void OnChange(KeySaveModel key, int number) {
-                runOnUiThread(new Runnable() {
+                activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (key == KeySaveModel.NUM1)
@@ -70,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        Context context = this;
+        Context context = container.getContext();
         btnTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,19 +92,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Play(actionController,this);
-
-//        Handler handler = new Handler();
-//        while (true) {
-//            handler.postAtTime(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                }
-//            }, 10);
-//        }
+        Play(actionController,container.getContext());
+        return inflater.inflate(R.layout.fragment_play, container, false);
     }
-
     public void Play(ActionController actionController, Context context) {
         actionController.Random();
         if (timer != null)
@@ -112,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 actionController.timeOut();
-                runOnUiThread(new TimerTask() {
+                activity.runOnUiThread(new TimerTask() {
                     @Override
                     public void run() {
                         new AlertDialog.Builder(context)
@@ -136,5 +132,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 3000);
     }
-
 }

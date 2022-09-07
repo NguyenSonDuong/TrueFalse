@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/MinhHoangJSC/StudioProjects/TrueFalse/app/src/main/res/drawable/button_theme.xml" value="0.195" />
+        <entry key="..\:/Users/MinhHoangJSC/StudioProjects/TrueFalse/app/src/main/res/drawable/ic_resource_false.xml" value="0.196" />
+        <entry key="..\:/Users/MinhHoangJSC/StudioProjects/TrueFalse/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/MinhHoangJSC/StudioProjects/TrueFalse/app/src/main/res/layout/activity_main_play.xml" value="0.23177083333333334" />
+        <entry key="..\:/Users/MinhHoangJSC/StudioProjects/TrueFalse/app/src/main/res/layout/activity_wecome.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/MinhHoangJSC/StudioProjects/TrueFalse/app/src/main/res/layout/fragment_play.xml" value="0.23177083333333334" />
+        <entry key="..\:/Users/MinhHoangJSC/StudioProjects/TrueFalse/app/src/main/res/layout/wecome_activity.xml" value="0.23072916666666668" />
         <entry key="..\:/project/android/TrueFalse/app/src/main/res/drawable/backgound_round_read.xml" value="0.1075" />
         <entry key="..\:/project/android/TrueFalse/app/src/main/res/drawable/backgroud_round_blue.xml" value="0.1065" />
         <entry key="..\:/project/android/TrueFalse/app/src/main/res/drawable/background_round.xml" value="0.1" />

@@ -13,7 +13,7 @@ public class ActionController {
     private EventNumberChange eventNumberChange;
     private Context context;
     private int startNumber = 0;
-    private int endNumber = 20;
+    private int endNumber = 10;
 
     private int dapAn = 0;
 
@@ -61,6 +61,20 @@ public class ActionController {
         this.context = context;
     }
 
+    public void setDapAnClick(boolean isTrue){
+        if(isTrue == scoresModel.isTrueDapAn()){
+            scoresModel.setScores(scoresModel.getScores()+dapAn);
+        }else{
+            scoresModel.setScores(scoresModel.getScores()-dapAn);
+        }
+        if (eventNumberChange != null)
+            eventNumberChange.OnChange(KeySaveModel.SCORES,scoresModel.getScores());
+    }
+    public void timeOut(){
+        scoresModel.setScores(scoresModel.getScores()-dapAn);
+        scoresModel.reset(eventNumberChange);
+    }
+
     public void Random() {
         int[] dapan = new int[11];
 
@@ -72,9 +86,9 @@ public class ActionController {
             eventNumberChange.OnChange(KeySaveModel.NUM2, scoresModel.getNum2());
         int startDapAn = scoresModel.getNum1() + scoresModel.getNum2();
         for (int i = 0; i < 10; i++) {
-            if (i <= 5)
+            if (i <= 4)
                 dapan[i] = startDapAn;
-            if (i > 5)
+            if (i > 6)
                 dapan[i] = generator.nextInt(((startDapAn + 5) - (startDapAn - 5)) + 1) + (startDapAn - 5);
         }
         scoresModel.setNum3(dapan[generator.nextInt(10)]);

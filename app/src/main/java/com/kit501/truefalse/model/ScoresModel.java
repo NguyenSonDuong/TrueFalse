@@ -1,5 +1,7 @@
 package com.kit501.truefalse.model;
 
+import com.kit501.truefalse.controller.event.EventNumberChange;
+
 public class ScoresModel {
 
     public static String SHARED_PREFERENCES_NAME = "scores";
@@ -77,6 +79,18 @@ public class ScoresModel {
 
     public void setLever(int lever) {
         this.lever = lever;
+    }
+
+    public void reset(EventNumberChange eventNumberChange){
+        num1 = 0;
+        num2 = 0;
+        num3 = 0;
+        scores = 0;
+        lever = 0;
+        eventNumberChange.OnChange(KeySaveModel.KEY_PT , 0);
+    }
+    public boolean isTrueDapAn(){
+        return (num1 + num2) == num3;
     }
 }
 
