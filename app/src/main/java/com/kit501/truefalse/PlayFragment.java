@@ -1,7 +1,6 @@
 package com.kit501.truefalse;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -14,9 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 
+import androidx.fragment.app.Fragment;
 import com.kit501.truefalse.controller.ActionController;
 import com.kit501.truefalse.controller.event.EventNumberChange;
 import com.kit501.truefalse.model.KeySaveModel;
@@ -26,30 +27,44 @@ import java.util.TimerTask;
 
 public class PlayFragment extends Fragment {
 
+    Context context;
+
     boolean isStop = false;
     Timer timer;
     Timer timer2;
     Activity activity;
+
+    public PlayFragment(Context context, Activity activity) {
+        this.context = context;
+        this.activity = activity;
+    }
+
+    public PlayFragment(int contentLayoutId, Context context, Activity activity) {
+        super(contentLayoutId);
+        this.context = context;
+        this.activity = activity;
+    }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ActionController actionController = new ActionController(container.getContext());
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_play,container,false);
+        ActionController actionController = new ActionController(getContext());
+        TextView tvNum1 = view.findViewById(R.id.tvNum1);
+        TextView tvNum2 = view.findViewById(R.id.tvNum2);
+        TextView tvNum3 = view.findViewById(R.id.tvNum3);
+        TextView tvScores = view.findViewById(R.id.tvScores);
 
-        TextView tvNum1 = getView().findViewById(R.id.tvNum1);
-        TextView tvNum2 = getView().findViewById(R.id.tvNum2);
-        TextView tvNum3 = getView().findViewById(R.id.tvNum3);
-        TextView tvScores = getView().findViewById(R.id.tvScores);
+        ImageButton btnTrue = view.findViewById(R.id.btnTrue);
+        ImageButton btnFalse = view.findViewById(R.id.btnFalse);
 
-        ImageButton btnTrue = getView().findViewById(R.id.btnTrue);
-        ImageButton btnFalse = getView().findViewById(R.id.btnFalse);
-
-        activity = this.getActivity();
-
+        System.out.printf(tvNum1.getText().toString());
         actionController.setEventNumberChange(new EventNumberChange() {
             @Override
             public void OnChange(KeySaveModel key, int number) {
@@ -76,7 +91,6 @@ public class PlayFragment extends Fragment {
 
             }
         });
-        Context context = container.getContext();
         btnTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,8 +106,8 @@ public class PlayFragment extends Fragment {
             }
         });
 
-        Play(actionController,container.getContext());
-        return inflater.inflate(R.layout.fragment_play, container, false);
+        Play(actionController,context);
+        return view;
     }
     public void Play(ActionController actionController, Context context) {
         actionController.Random();

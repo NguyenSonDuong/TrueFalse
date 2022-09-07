@@ -11,7 +11,7 @@ import android.os.Bundle;
 
 public class MainPlayActivity extends AppCompatActivity {
 
-    PlayFragment playFragment = new PlayFragment();
+    PlayFragment playFragment ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +19,15 @@ public class MainPlayActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         setContentView(R.layout.activity_main_play);
-
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.add(R.id.frMain, playFragment);
+        playFragment = new PlayFragment(this,this);
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.frMain, playFragment, null)
+                .commit();
+//
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        fragmentTransaction.add(R.id.frMain, playFragment);
     }
 }
