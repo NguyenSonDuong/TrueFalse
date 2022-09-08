@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -19,7 +20,9 @@ import androidx.appcompat.app.AlertDialog;
 
 import androidx.fragment.app.Fragment;
 import com.kit501.truefalse.controller.ActionController;
+import com.kit501.truefalse.controller.event.EventEndGame;
 import com.kit501.truefalse.controller.event.EventNumberChange;
+import com.kit501.truefalse.controller.event.EventPlayGame;
 import com.kit501.truefalse.model.KeySaveModel;
 
 import java.util.Timer;
@@ -28,6 +31,26 @@ import java.util.TimerTask;
 public class PlayFragment extends Fragment {
 
     Context context;
+
+    EventEndGame eventEndGame;
+
+    public EventPlayGame getEventPlayGame() {
+        return eventPlayGame;
+    }
+
+    public void setEventPlayGame(EventPlayGame eventPlayGame) {
+        this.eventPlayGame = eventPlayGame;
+    }
+
+    EventPlayGame eventPlayGame;
+
+    public EventEndGame getEventEndGame() {
+        return eventEndGame;
+    }
+
+    public void setEventEndGame(EventEndGame eventEndGame) {
+        this.eventEndGame = eventEndGame;
+    }
 
     boolean isStop = false;
     Timer timer;
@@ -125,22 +148,35 @@ public class PlayFragment extends Fragment {
                 activity.runOnUiThread(new TimerTask() {
                     @Override
                     public void run() {
-                        new AlertDialog.Builder(context)
-                                .setTitle("Delete entry")
-                                .setMessage("Are you sure you want to delete this entry?")
+                        DialogLost cdd=new DialogLost(context);
+                        cdd.setScoresModel(actionController.getScoresModel());
+                        cdd.setEventEndGame(eventEndGame);
+                        cdd.setEventPlayGame(eventPlayGame);
+                        cdd.show();
+                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                        lp.copyFrom(cdd.getWindow().getAttributes());
+                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        cdd.show();
+                        cdd.getWindow().setAttributes(lp);
 
-                                // Specifying a listener allows you to take an action before dismissing the dialog.
-                                // The dialog is automatically dismissed when a dialog button is clicked.
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // Continue with delete operation
-                                    }
-                                })
-
-                                // A null listener allows the button to dismiss the dialog and take no further action.
-                                .setNegativeButton(android.R.string.no, null)
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
+//                        eventEndGame.onEndGame(actionController.getScoresModel());
+//                        new AlertDialog.Builder(context)
+//                                .setTitle("Delete entry")
+//                                .setMessage("Are you sure you want to delete this entry?")
+//
+//                                // Specifying a listener allows you to take an action before dismissing the dialog.
+//                                // The dialog is automatically dismissed when a dialog button is clicked.
+//                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        // Continue with delete operation
+//                                    }
+//                                })
+//
+//                                // A null listener allows the button to dismiss the dialog and take no further action.
+//                                .setNegativeButton(android.R.string.no, null)
+//                                .setIcon(android.R.drawable.ic_dialog_alert)
+//                                .show();
                     }
                 });
             }
